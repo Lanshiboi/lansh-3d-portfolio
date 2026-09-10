@@ -23,8 +23,6 @@ const contactRows=[
   {icon:MapPin,label:'Location',value:'Porac, Botolan, Zambales'}
 ];
 
-function Scene(){return <Canvas camera={{position:[0,0,6],fov:42}} dpr={[1,1.5]}><ambientLight intensity={1.2}/><directionalLight position={[3,4,5]} intensity={3}/><Suspense fallback={null}><Float speed={1.5} rotationIntensity={.25} floatIntensity={.7}><group rotation={[0,.18,0]}><mesh position={[0,0,0]} castShadow><boxGeometry args={[2.8,1.7,.22]}/><meshStandardMaterial color="#071d17" metalness={.7} roughness={.2}/></mesh><mesh position={[0,.05,.14]}><boxGeometry args={[2.35,1.35,.04]}/><meshStandardMaterial color="#0b3d2e" emissive="#0a6b45" emissiveIntensity={.45}/></mesh><Text position={[0,.15,.18]} fontSize={.22} color="#65ffd0" anchorX="center" anchorY="middle">Lansh.dev</Text><mesh position={[0,-1.03,.05]} rotation={[0,0,0]} castShadow><boxGeometry args={[1.9,.1,1.2]}/><meshStandardMaterial color="#10372a" metalness={.4}/></mesh></group></Float><ContactShadows position={[0,-1.1,0]} opacity={.45} scale={5} blur={2}/><Environment preset="city"/><OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={.7}/></Suspense></Canvas>}
-
 function StatsRow(){
   const stats=[['1','Project Shipped',BriefcaseBusiness],['600+','OJT Hours',Award],['2','Certifications',ShieldCheck]];
   return (
@@ -60,7 +58,7 @@ function App(){
       <div className="ambient"/>
 
       <aside className={mobile?'sidebar open':'sidebar'}>
-        <div className="brand"><img src={A+'logo_ko.png'}/><span>Lansh</span></div>
+        <div className="brand"><img src={A+'leaf.png'}/><span>Lansh</span></div>
         <button className="close" onClick={()=>setMobile(false)}><X/></button>
         <nav>{nav.map(([id,label,Icon])=><a key={id} href={'#'+id} onClick={()=>setMobile(false)} className="navitem"><Icon size={17}/><span>{label}</span></a>)}</nav>
         <div className="side-bottom">
@@ -89,7 +87,7 @@ function App(){
               <div className="tech-row">{['Flutter','Dart','ITLite','React'].map(x=><span key={x}><Code2 size={14}/>{x}</span>)}</div>
             </div>
             <div className="hero-scene">
-              <Scene/>
+              <img src={A+'Robot.png'} alt="Lansh coding at his desk" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
               <div className="scene-label">Build · Learn · Improve</div>
             </div>
           </div>
@@ -121,6 +119,7 @@ function App(){
           <StatsRow/>
 
           <div className="experience glass">
+            <img src={A+'desk.png'} alt="Workspace" style={{width:'100%',maxHeight:180,objectFit:'cover',borderRadius:16,marginBottom:16}}/>
             <span className="mini-label">Experience</span>
             <h3>On-the-Job Trainee · ZAMECO I</h3>
             <span className="date">Jan 2026 – May 2026</span>
@@ -168,6 +167,7 @@ function App(){
         {/* ===== CERTIFICATIONS ===== */}
         <section id="certifications" className="page">
           <Header title="Certifications" text="Verified records supporting my technical training and learning."/>
+          <img src={A+'certificate.png'} alt="Certifications" style={{width:'100%',maxHeight:220,objectFit:'cover',borderRadius:20,marginBottom:24}}/>
           <div className="cert-grid">
             {certs.map(c=>
               <motion.article whileHover={{y:-6}} className="glass cert-card" key={c.title}>
@@ -187,7 +187,10 @@ function App(){
         <section id="education" className="page">
           <Header title="Education" text="My academic background and training that built my foundation."/>
           <div className="education glass">
-            <div className="edu-visual"><GraduationCap size={72}/><span>Learn<br/>Build<br/>Grow</span></div>
+            <div className="edu-visual">
+              <img src={A+'graduation.png'} alt="Graduation" style={{width:'100%',maxWidth:220,objectFit:'contain'}}/>
+              <span>Learn<br/>Build<br/>Grow</span>
+            </div>
             <div className="timeline">
               {eduList.map(e=>
                 <div className="timeline-item glass" key={e.title}>
@@ -210,7 +213,7 @@ function App(){
               })}
               <a className="btn primary" href="mailto:lansii0430@gmail.com">Send Message <ArrowRight/></a>
             </div>
-            <div className="glass contact-art">
+            <div className="glass contact-art" style={{backgroundImage:`linear-gradient(180deg, rgba(6,20,15,.4), rgba(6,20,15,.85)), url(${A}city.png)`,backgroundSize:'cover',backgroundPosition:'center'}}>
               <div>
                 <span className="mini-label">Find Me On</span>
                 <h3>Let's connect.</h3>
@@ -220,7 +223,6 @@ function App(){
                   <a href="https://www.linkedin.com/in/lansh-christian-herrera-43a061431"><Linkedin/></a>
                 </div>
               </div>
-              <div className="contact-glow">L</div>
             </div>
           </div>
         </section>
