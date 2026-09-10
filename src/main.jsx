@@ -1,4 +1,4 @@
-import React,{Suspense,useState} from 'react';
+import React,{Suspense,useState,useEffect,useRef} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Canvas} from '@react-three/fiber';
 import {Float,Environment,ContactShadows,OrbitControls,Text} from '@react-three/drei';
@@ -22,6 +22,28 @@ const contactRows=[
   {icon:Phone,label:'Phone',value:'0963 707 9906',href:'tel:+639637079906'},
   {icon:MapPin,label:'Location',value:'Porac, Botolan, Zambales'}
 ];
+
+/* ---------- Reusable: existing 3D artwork, presented as an integrated floating scene element ---------- */
+function ArtStage({src,alt,size='lg',glow='center',tilt=0,className=''}){
+  return (
+    <div className={`art-stage art-${size} ${className}`}>
+      <div className={`art-glow glow-${glow}`}/>
+      <motion.img
+        src={src}
+        alt={alt}
+        className="art-image"
+        style={{rotate:tilt}}
+        initial={{opacity:0,y:24}}
+        whileInView={{opacity:1,y:0}}
+        viewport={{once:true,margin:'-80px'}}
+        transition={{duration:.7,ease:'easeOut'}}
+        animate={{y:[0,-10,0]}}
+        // combine entrance + idle float: idle float runs continuously after mount
+      />
+      <div className="art-shadow"/>
+    </div>
+  );
+}
 
 function StatsRow(){
   const stats=[['1','Project Shipped',BriefcaseBusiness],['600+','OJT Hours',Award],['2','Certifications',ShieldCheck]];
@@ -48,10 +70,26 @@ function TechStack(){
   );
 }
 
+/* ---------- Scroll-spy: highlights the active sidebar item as the page scrolls ---------- */
+function useActiveSection(ids){
+  const [active,setActive]=useState(ids[0]);
+  useEffect(()=>{
+    const els=ids.map(id=>document.getElementById(id)).filter(Boolean);
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting) setActive(e.target.id); });
+    },{rootMargin:'-40% 0px -50% 0px',threshold:0});
+    els.forEach(el=>io.observe(el));
+    return ()=>io.disconnect();
+  },[ids]);
+  return active;
+}
+
 function App(){
   const [dark,setDark]=useState(true);
   const [mobile,setMobile]=useState(false);
   const [selected,setSelected]=useState(null);
+  const sectionIds=nav.map(n=>n[0]);
+  const active=useActiveSection(sectionIds);
 
   return (
     <div className={dark?'app dark':'app'}>
@@ -60,7 +98,14 @@ function App(){
       <aside className={mobile?'sidebar open':'sidebar'}>
         <div className="brand"><img src={A+'leaf.png'}/><span>Lansh</span></div>
         <button className="close" onClick={()=>setMobile(false)}><X/></button>
-        <nav>{nav.map(([id,label,Icon])=><a key={id} href={'#'+id} onClick={()=>setMobile(false)} className="navitem"><Icon size={17}/><span>{label}</span></a>)}</nav>
+        <nav>
+          {nav.map(([id,label,Icon])=>
+            <a key={id} href={'#'+id} onClick={()=>setMobile(false)} className={active===id?'navitem active':'navitem'}>
+              <Icon size={17}/><span>{label}</span>
+              {active===id&&<motion.span layoutId="navdot" className="navdot"/>}
+            </a>
+          )}
+        </nav>
         <div className="side-bottom">
           <button onClick={()=>setDark(!dark)} className="theme"><span>{dark?<Moon size={16}/>:<Sun size={16}/>}</span>{dark?'Dark Mode':'Light Mode'}</button>
           <div className="social">
@@ -76,7 +121,7 @@ function App(){
         {/* ===== HOME ===== */}
         <section id="home" className="hero page">
           <div className="hero-top">
-            <div className="hero-copy">
+            <motion.div className="hero-copy" initial={{opacity:0,x:-24}} animate={{opacity:1,x:0}} transition={{duration:.7}}>
               <div className="eyebrow">Junior Software Developer</div>
               <h1>Hi, I'm <span>Lansh Christian A. Herrera</span></h1>
               <p className="hero-role">I build simple, functional, and user-friendly applications that solve real problems.</p>
@@ -85,9 +130,9 @@ function App(){
                 <a href={A+'LanshHerrera_Resume.pdf'} target="_blank" className="btn ghost">Download Resume <Download/></a>
               </div>
               <div className="tech-row">{['Flutter','Dart','ITLite','React'].map(x=><span key={x}><Code2 size={14}/>{x}</span>)}</div>
-            </div>
+            </motion.div>
             <div className="hero-scene">
-              <img src={A+'Robot.png'} alt="Lansh coding at his desk" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+              <ArtStage src={A+'Robot.png'} alt="Lansh at his coding workspace" size="hero" glow="center"/>
               <div className="scene-label">Build · Learn · Improve</div>
             </div>
           </div>
@@ -118,17 +163,21 @@ function App(){
 
           <StatsRow/>
 
-          <div className="experience glass">
-            <img src={A+'desk.png'} alt="Workspace" style={{width:'100%',maxHeight:180,objectFit:'cover',borderRadius:16,marginBottom:16}}/>
-            <span className="mini-label">Experience</span>
-            <h3>On-the-Job Trainee · ZAMECO I</h3>
-            <span className="date">Jan 2026 – May 2026</span>
-            <ul>
-              <li><CheckCircle2 size={16}/>Performed data entry and encoding of member and billing records.</li>
-              <li><CheckCircle2 size={16}/>Processed and organized paper-based documents for daily workflow.</li>
-              <li><CheckCircle2 size={16}/>Automated repetitive data tasks with Microsoft Excel VBA.</li>
-              <li><CheckCircle2 size={16}/>Assisted staff with general clerical and office support tasks.</li>
-            </ul>
+          <div className="experience glass experience-split">
+            <div className="experience-art">
+              <ArtStage src={A+'desk.png'} alt="Workspace" size="md" glow="soft"/>
+            </div>
+            <div className="experience-copy">
+              <span className="mini-label">Experience</span>
+              <h3>On-the-Job Trainee · ZAMECO I</h3>
+              <span className="date">Jan 2026 – May 2026</span>
+              <ul>
+                <li><CheckCircle2 size={16}/>Performed data entry and encoding of member and billing records.</li>
+                <li><CheckCircle2 size={16}/>Processed and organized paper-based documents for daily workflow.</li>
+                <li><CheckCircle2 size={16}/>Automated repetitive data tasks with Microsoft Excel VBA.</li>
+                <li><CheckCircle2 size={16}/>Assisted staff with general clerical and office support tasks.</li>
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -137,8 +186,10 @@ function App(){
           <Header title="My Projects" text="Selected work that demonstrates my practical skills and what I can build."/>
           <div className="featured glass">
             <div className="featured-media">
-              <img src={A+projects[0].image}/>
-              <div className="float-phone"><img src={A+'mangoripe-03-ripe.png'}/></div>
+              <ArtStage src={A+projects[0].image} alt="MangoRipe 3D artwork" size="featured" glow="strong"/>
+              <motion.div className="float-phone" animate={{y:[0,-9,0]}} transition={{duration:5,repeat:Infinity,ease:'easeInOut'}}>
+                <img src={A+'mangoripe-03-ripe.png'}/>
+              </motion.div>
             </div>
             <div className="featured-copy">
               <span className="badge">Featured Project</span>
@@ -167,19 +218,23 @@ function App(){
         {/* ===== CERTIFICATIONS ===== */}
         <section id="certifications" className="page">
           <Header title="Certifications" text="Verified records supporting my technical training and learning."/>
-          <img src={A+'certificate.png'} alt="Certifications" style={{width:'100%',maxHeight:220,objectFit:'cover',borderRadius:20,marginBottom:24}}/>
-          <div className="cert-grid">
-            {certs.map(c=>
-              <motion.article whileHover={{y:-6}} className="glass cert-card" key={c.title}>
-                <span className="icon-box"><c.icon size={20}/></span>
-                <div>
-                  <h3>{c.title}</h3>
-                  <p className="sub">{c.sub}</p>
-                  <span className="date">{c.date}</span>
-                  <button className="text-btn" onClick={()=>setSelected(c)}>View Certificate <ExternalLink size={15}/></button>
-                </div>
-              </motion.article>
-            )}
+          <div className="cert-layout glass">
+            <div className="cert-art">
+              <ArtStage src={A+'certificate.png'} alt="Certification artwork" size="md" glow="soft"/>
+            </div>
+            <div className="cert-grid">
+              {certs.map(c=>
+                <motion.article whileHover={{y:-6}} className="glass cert-card" key={c.title}>
+                  <span className="icon-box"><c.icon size={20}/></span>
+                  <div>
+                    <h3>{c.title}</h3>
+                    <p className="sub">{c.sub}</p>
+                    <span className="date">{c.date}</span>
+                    <button className="text-btn" onClick={()=>setSelected(c)}>View Certificate <ExternalLink size={15}/></button>
+                  </div>
+                </motion.article>
+              )}
+            </div>
           </div>
         </section>
 
@@ -188,7 +243,7 @@ function App(){
           <Header title="Education" text="My academic background and training that built my foundation."/>
           <div className="education glass">
             <div className="edu-visual">
-              <img src={A+'graduation.png'} alt="Graduation" style={{width:'100%',maxWidth:220,objectFit:'contain'}}/>
+              <ArtStage src={A+'graduation.png'} alt="Graduation artwork" size="md" glow="soft"/>
               <span>Learn<br/>Build<br/>Grow</span>
             </div>
             <div className="timeline">
@@ -213,8 +268,11 @@ function App(){
               })}
               <a className="btn primary" href="mailto:lansii0430@gmail.com">Send Message <ArrowRight/></a>
             </div>
-            <div className="glass contact-art" style={{backgroundImage:`linear-gradient(180deg, rgba(6,20,15,.4), rgba(6,20,15,.85)), url(${A}city.png)`,backgroundSize:'cover',backgroundPosition:'center'}}>
-              <div>
+            <div className="glass contact-art">
+              <div className="contact-art-bg">
+                <ArtStage src={A+'city.png'} alt="Contact artwork" size="md" glow="soft"/>
+              </div>
+              <div className="contact-art-copy">
                 <span className="mini-label">Find Me On</span>
                 <h3>Let's connect.</h3>
                 <p>See my work, professional profile, and latest projects.</p>
