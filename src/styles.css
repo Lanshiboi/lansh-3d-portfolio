@@ -20,11 +20,14 @@ button{font:inherit}
 main{margin-left:270px;position:relative;z-index:1;padding:0 34px}
 .page{max-width:1180px;margin:auto;min-height:100vh;padding:100px 0 70px}
 
-/* ===== HERO (fixed: now stacks hero-top + tech stack panel) ===== */
+/* icon badge used across stats / certs / education / contact — the recurring visual device that ties the sections together */
+.icon-box{width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:13px;background:linear-gradient(150deg,rgba(39,233,154,.22),rgba(39,233,154,.06));border:1px solid var(--line);color:var(--green2)}
+
+/* ===== HERO ===== */
 .hero{display:flex;flex-direction:column;gap:26px;min-height:100vh;padding-top:60px;justify-content:center}
 .hero-top{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px}
-.eyebrow,.mini-label{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#54e8b4}
-.hero h1{font-size:clamp(42px,5vw,76px);line-height:.98;margin:16px 0}
+.eyebrow,.mini-label{font:500 13px 'Space Grotesk',sans-serif;color:#54e8b4}
+.hero h1{font-size:clamp(38px,4.6vw,64px);line-height:1.05;margin:14px 0}
 .hero h1 span{display:block;color:#65ffd0;text-shadow:0 0 30px rgba(39,233,154,.2)}
 .hero-role{font-size:18px;line-height:1.7;color:var(--muted);max-width:620px}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
@@ -33,69 +36,72 @@ main{margin-left:270px;position:relative;z-index:1;padding:0 34px}
 .btn.primary{background:linear-gradient(135deg,#1ce48e,#0ba86c);color:#00150d;box-shadow:0 8px 30px rgba(39,233,154,.18)}
 .btn.ghost{background:rgba(255,255,255,.03);color:var(--text)}
 .tech-row,.chips{display:flex;gap:8px;flex-wrap:wrap}
-.tech-row span,.chips span{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(33,126,94,.12);color:#b4ded1;border-radius:999px;padding:7px 11px;font:500 12px 'IBM Plex Mono',monospace}
+.tech-row span,.chips span{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(33,126,94,.12);color:#b4ded1;border-radius:999px;padding:7px 11px;font-size:13px}
 .hero-scene{height:480px;position:relative;border-radius:32px;border:1px solid var(--line);background:radial-gradient(circle at 50% 40%,rgba(39,233,154,.15),transparent 48%),rgba(4,25,18,.35);overflow:hidden}
 .hero-scene canvas{width:100%!important;height:100%!important}
-.scene-label{position:absolute;right:22px;top:20px;padding:9px 13px;border:1px solid var(--line);border-radius:12px;background:rgba(2,12,8,.55);font:500 11px 'IBM Plex Mono';color:#70f4c5}
+.scene-label{position:absolute;right:22px;top:20px;padding:9px 13px;border:1px solid var(--line);border-radius:12px;background:rgba(2,12,8,.55);font-size:12px;color:#70f4c5}
 
-/* ===== NEW: Tech Stack panel under hero ===== */
 .tech-stack{padding:22px 26px}
 .tech-stack .mini-label{display:block;margin-bottom:14px}
 .tech-stack .chips span{background:rgba(39,233,154,.08)}
 
-/* ===== STATS (now used inside About, not standalone) ===== */
+/* ===== STATS — icon-box + number, in one row ===== */
 .stats{max-width:100%;margin:28px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.stats>div,.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(10,43,31,.72),rgba(4,23,17,.58));backdrop-filter:blur(16px);box-shadow:var(--shadow);border-radius:24px}
-.stats>div{padding:24px}
-.stats b{display:block;font-size:38px;color:var(--green)}
-.stats span{font:500 10px 'IBM Plex Mono';color:var(--muted);letter-spacing:.12em}
+.stat-card,.glass{border:1px solid var(--line);background:linear-gradient(145deg,rgba(10,43,31,.72),rgba(4,23,17,.58));backdrop-filter:blur(16px);box-shadow:var(--shadow);border-radius:24px}
+.stat-card{padding:20px;display:flex;align-items:center;gap:16px}
+.stat-card b{display:block;font-size:30px;color:var(--green)}
+.stat-card span{font-size:12px;color:var(--muted)}
 
 .section-head{margin-bottom:35px}
-.section-head h2{font-size:clamp(36px,5vw,58px);margin:8px 0}
+.section-head h2{font-size:clamp(34px,4.6vw,52px);margin:0 0 10px}
 .section-head p{color:var(--muted);max-width:650px;font-size:16px}
 .about-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
 .about-card,.objective,.experience,.featured,.project-card,.cert-card,.education,.contact-card,.contact-art{padding:26px}
-.profile{display:flex;gap:24px;align-items:center}
+.profile{display:flex;gap:24px;align-items:center;margin-top:14px}
 .profile img{width:130px;height:130px;object-fit:cover;border-radius:22px;border:1px solid var(--line)}
-.about-card h3,.objective h3,.experience h3,.project-card h3,.cert-card h3{font-size:24px;margin:7px 0}
+.about-card h3,.objective h3,.experience h3,.project-card h3,.cert-card h3{font-size:22px;margin:7px 0}
 .glass p{color:var(--muted);line-height:1.7}
-.objective h3{font-size:28px}
-.experience{margin-top:0}
+.objective{position:relative}
+.objective h3{font-size:26px;margin-top:16px}
 .experience ul,.featured-copy ul{list-style:none;padding:0;margin:20px 0;display:grid;gap:11px}
 .experience li,.featured-copy li{display:flex;gap:9px;color:#b5cec6}
-.date{font:500 11px 'IBM Plex Mono';color:#65dcb0}
+.experience li svg,.featured-copy li svg{color:var(--green);flex:none;margin-top:2px}
+.date{font-size:12px;color:#65dcb0}
 .featured{display:grid;grid-template-columns:1.15fr .85fr;gap:25px;align-items:center}
 .featured-media{position:relative;min-height:480px;display:grid;place-items:center;border-radius:20px;overflow:hidden;background:radial-gradient(circle,rgba(40,233,154,.2),transparent 60%)}
 .featured-media>img{width:86%;max-height:420px;object-fit:contain;filter:drop-shadow(0 25px 25px rgba(0,0,0,.45));transform:rotate(-2deg)}
 .float-phone{position:absolute;right:4%;bottom:4%;width:145px;transform:rotate(7deg);filter:drop-shadow(0 20px 25px rgba(0,0,0,.45))}
 .float-phone img{width:100%;border-radius:20px}
-.badge{display:inline-block;padding:7px 10px;border-radius:999px;background:rgba(39,233,154,.15);color:#64efbb;font:600 10px 'IBM Plex Mono'}
-.featured-copy h3{font-size:42px;margin:12px 0 4px}
+.badge{display:inline-block;padding:7px 10px;border-radius:999px;background:rgba(39,233,154,.15);color:#64efbb;font-size:11px;font-weight:600}
+.featured-copy h3{font-size:38px;margin:12px 0 4px}
 .sub{color:#62d9b1!important}
-.project-grid,.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
-.project-card img{width:100%;height:220px;object-fit:cover;border-radius:16px;border:1px solid var(--line);margin-bottom:18px}
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.project-card img{width:100%;height:200px;object-fit:cover;border-radius:16px;border:1px solid var(--line);margin-bottom:16px}
 .text-btn{background:none;border:0;color:#65efbb;padding:0;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-weight:600}
-.cert-card{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}
-.cert-card img{width:100%;height:180px;object-fit:cover;border-radius:15px;border:1px solid var(--line)}
-.cert-card .text-btn{margin-top:15px}
+
+/* ===== CERTIFICATIONS — 2x2 grid, icon badge per card (matches reference) ===== */
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}
+.cert-card{display:flex;gap:16px;align-items:flex-start}
+.cert-card .text-btn{margin-top:14px}
+
+/* ===== EDUCATION — icon visual panel + stacked timeline cards ===== */
 .education{display:grid;grid-template-columns:300px 1fr;gap:30px}
-.edu-visual{display:grid;place-items:center;align-content:center;min-height:450px;border-radius:20px;background:radial-gradient(circle,rgba(39,233,154,.17),transparent 60%);color:var(--green)}
-.edu-visual span{text-align:center;font:600 14px 'IBM Plex Mono';letter-spacing:.25em;line-height:2;color:#73cdb0}
-.timeline{padding:15px}
-.timeline-item{display:grid;grid-template-columns:18px 1fr;gap:17px;position:relative;padding:12px 0 28px}
-.timeline-item:not(:last-child):after{content:'';position:absolute;left:7px;top:29px;bottom:0;width:1px;background:var(--line)}
-.timeline-item i{width:14px;height:14px;border-radius:50%;border:2px solid var(--green);margin-top:7px;box-shadow:0 0 14px rgba(39,233,154,.4)}
-.timeline-item h3{margin:0 0 5px}
+.edu-visual{display:grid;place-items:center;align-content:center;gap:14px;min-height:450px;border-radius:20px;background:radial-gradient(circle,rgba(39,233,154,.17),transparent 60%);color:var(--green)}
+.edu-visual span{text-align:center;font-size:14px;letter-spacing:.1em;line-height:1.9;color:#73cdb0}
+.timeline{display:grid;gap:12px}
+.timeline-item{display:flex;gap:16px;align-items:flex-start;padding:18px}
+.timeline-item h3{margin:0 0 4px;font-size:17px}
+.timeline-item p{margin:0 0 6px}
+
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.contact-card{display:grid;gap:15px}
-.contact-card>a:not(.btn),.contact-card>div{display:flex;gap:15px;align-items:center;padding:16px;border:1px solid rgba(84,255,199,.12);border-radius:16px}
-.contact-card svg{color:var(--green)}
-.contact-card span{display:block;color:var(--muted);font:500 10px 'IBM Plex Mono';margin-bottom:4px}
+.contact-card{display:grid;gap:12px}
+.contact-card>a:not(.btn),.contact-card>div{display:flex;gap:15px;align-items:center;padding:14px;border:1px solid rgba(84,255,199,.12);border-radius:16px}
+.contact-card span{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}
 .contact-card b{font-size:15px}
 .contact-art{display:flex;align-items:center;justify-content:space-between;overflow:hidden}
 .big-social{display:flex;gap:10px;margin-top:20px}
-.contact-glow{font-size:250px;font-weight:700;color:rgba(39,233,154,.07);text-shadow:0 0 70px rgba(39,233,154,.2)}
-footer{max-width:1180px;margin:auto;border-top:1px solid var(--line);padding:22px 0 30px;color:#658178;font:11px 'IBM Plex Mono';display:flex;justify-content:space-between}
+.contact-glow{font-size:220px;font-weight:700;color:rgba(39,233,154,.07);text-shadow:0 0 70px rgba(39,233,154,.2)}
+footer{max-width:1180px;margin:auto;border-top:1px solid var(--line);padding:22px 0 30px;color:#658178;font-size:12px;display:flex;justify-content:space-between}
 .mobile-menu,.close{display:none}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);z-index:100;display:grid;place-items:center;padding:20px}
 .modal-box{width:min(900px,96vw);max-height:90vh;overflow:auto;padding:28px;position:relative}
@@ -109,13 +115,10 @@ footer{max-width:1180px;margin:auto;border-top:1px solid var(--line);padding:22p
   .hero-top{grid-template-columns:1fr}
   .hero-scene{height:400px}
   .featured,.education,.contact-grid{grid-template-columns:1fr}
-  .about-grid{grid-template-columns:1fr}
+  .about-grid,.project-grid,.cert-grid,.stats{grid-template-columns:1fr}
   main{margin-left:235px}
-  .stats{grid-template-columns:1fr}
-  .project-grid,.cert-grid{grid-template-columns:1fr}
   .education{padding:20px}
-  .edu-visual{min-height:260px}
-  .cert-card{grid-template-columns:140px 1fr}
+  .edu-visual{min-height:220px}
 }
 @media(max-width:700px){
   .sidebar{left:12px;top:12px;bottom:12px;transform:translateX(-120%);transition:.3s;width:245px}
@@ -125,16 +128,13 @@ footer{max-width:1180px;margin:auto;border-top:1px solid var(--line);padding:22p
   main{margin-left:0;padding:0 18px}
   .page{padding:90px 0 45px}
   .hero{padding-top:65px}
-  .hero h1{font-size:44px}
+  .hero h1{font-size:40px}
   .hero-scene{height:330px}
-  .stats{gap:10px}
-  .stats>div{padding:18px}
   .featured-media{min-height:330px}
-  .featured-copy h3{font-size:34px}
-  .cert-card{grid-template-columns:1fr}
-  .cert-card img{height:230px}
+  .featured-copy h3{font-size:30px}
+  .cert-card{flex-direction:column}
   .profile{align-items:flex-start;flex-direction:column}
-  .contact-art{min-height:300px}
+  .contact-art{min-height:280px}
   footer{flex-direction:column;gap:8px}
   .screens{grid-template-columns:repeat(2,1fr)}
 }
